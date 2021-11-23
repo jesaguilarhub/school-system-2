@@ -5,7 +5,8 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
 from django.core.mail import send_mail
-
+from users.tasks import send_email
+from datetime import datetime, timedelta
 
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
@@ -24,13 +25,9 @@ class UserViewSet(ModelViewSet):
 
         serialized.save()
         
-        send_mail(
-            subject='Se ha creado un nuevo usuario',
-            message=f'se ha creado el usuario',
-            from_email='hola@school_system.com',
-            recipient_list=[],
-            html_message=f'<h1>Un nuevo usuario ha sido creado</h1>'
-        )
+        send_email_datetime = datetime.now() + timedelta(seconds=20)
+        send_email.apply_async(eta=send_email_datetime)
+        
         return Response(
             status=status.HTTP_201_CREATED,
             data=serialized.data

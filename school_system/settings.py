@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'students.apps.StudentsConfig',
     'users.apps.UsersConfig',
     'rest_framework_simplejwt',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,5 @@ EMAIL_HOST = 'smtp.mailtrap.io'
 EMAIL_HOST_USER = 'fdb9989cb728aa'
 EMAIL_HOST_PASSWORD = 'b794f0911e36f6'
 EMAIL_PORT = '2525'
+
+CELERY_BROKER_URL = 'amqp://guest:guest@127.0.0.1:5672/'
